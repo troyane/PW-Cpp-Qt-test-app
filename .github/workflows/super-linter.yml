@@ -14,7 +14,8 @@ on:
     branches: ["main"]
 
 env:
-  VALIDATE_CLANG_FORMAT: PW-Cpp-Qt-test-app/.clang-format
+  VALIDATE_CLANG_FORMAT: true
+  LINTER_RULES_PATH: PW-Cpp-Qt-test-app
 
 jobs:
   run-lint:
