@@ -10,10 +10,10 @@ on:
     branches: ["main"]
 
 env:
-  APP_NAME: '${{ github.event.repository.name }}'
-  WORK_DIR: '${{ github.workspace }}'
-  SRC_DIR: '$WORK_DIR/$APP_NAME'
-  BUILD_DIR: '$WORK_DIR/BUILD'
+  APP_NAME: ${{ github.event.repository.name }}
+  WORK_DIR: ${{ github.workspace }}
+  SRC_DIR: $WORK_DIR/$APP_NAME
+  BUILD_DIR: $WORK_DIR/BUILD
   
 jobs:
 
@@ -91,8 +91,9 @@ jobs:
 
       - name: Check & Prepare
         run: |
-          cd '$WORK_DIR'
-          mkdir -p '$BUILD_DIR'
+          ls -lah
+          cd $WORK_DIR
+          mkdir -p $BUILD_DIR
           ls -lah
           find . -name CMakeLists.txt
       
@@ -113,16 +114,16 @@ jobs:
         with:
           run-build: true
           run-test: false # no tests yet
-          source-dir: '$SRC_DIR'
-          build-dir: '$BUILD_DIR'
-          generator: 'Ninja'
+          source-dir: $SRC_DIR
+          build-dir: $BUILD_DIR
+          generator: Ninja
           # c-compiler: clang
           # cxx-compiler: clang++
       
       - name: Check build result
         run: |
-          cd '$BUILD_DIR'
+          cd $BUILD_DIR
           ls -lah
           echo 'Running application...'
-          ./'$APP_NAME'
+          ./$APP_NAME
           echo 'Application quit. All good.'
