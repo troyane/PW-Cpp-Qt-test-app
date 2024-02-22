@@ -39,7 +39,7 @@ jobs:
           "SRC_DIR=${{ env.WORK_DIR }}/${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
           "BUILD_DIR=${{ env.WORK_DIR }}/BUILD" | Out-File -FilePath $env:GITHUB_ENV -Append
       
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
       
       - name: Install Qt
@@ -48,7 +48,7 @@ jobs:
           version: '6.5.3'
           host: ${{ (runner.os == 'Linux' && 'linux') || (runner.os == 'macOS' && 'mac' || 'windows') }}
 
-      - name: Configure the Project
+      - name: Configure and Build the Project
         uses: threeal/cmake-action@v1.3.0
         with:
           run-build: true
@@ -57,6 +57,7 @@ jobs:
           build-dir: ${{ env.BUILD_DIR }} 
       
       - name: Check build result on Linux or macOS
+        if: ${{ matrix.os != 'windows-latest' }}
         run: |
           cd ${{ env.BUILD_DIR }}
           echo 'Running the application...'
@@ -64,6 +65,7 @@ jobs:
           echo 'Application quit. All good.'
 
       - name: Check build result on Windows
+        if: ${{ matrix.os == 'windows-latest' }}
         run: |
           cd ${{ env.BUILD_DIR }}
           REM "Running the application"
