@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  SRC_DIR: '${{ github.workspace }}/${{ github.event.repository.name }}'
+  BUILD_DIR: '${{ github.workspace }}/BUILD'
+  APP_NAME: '${{ github.event.repository.name }}'
+
 jobs:
   # run-lint:
   #   if: ${{ false }} # disable for now
@@ -75,11 +80,6 @@ jobs:
   build-project:
     name: Build Project
     runs-on: ubuntu-latest
-
-    env:
-      SRC_DIR: '${{ github.workspace }}/${{ github.event.repository.name }}'
-      BUILD_DIR: '${{ github.workspace }}/BUILD'
-      APP_NAME: '${{ github.event.repository.name }}'
 
     # needs: run-lint
     steps:
