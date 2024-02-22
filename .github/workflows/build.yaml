@@ -23,19 +23,21 @@ jobs:
 
     # needs: run-lint
     steps:
-      - name: Setup Env
+      - name: Setup Env for Linux or macOS
         if: ${{ (matrix.os == 'macOS') || (matrix.os == 'linux') }}
-          run: |
-            echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
-            echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
-            echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
-            echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
-        # - if: ${{ matrix.os == 'windows' }}
-        #   run: |
-        #     "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
-        #     "WORK_DIR=${{ env.WORK_DIR }}" | Out-File -FilePath $env:GITHUB_ENV -Append
-        #     "SRC_DIR=${{ $WORK_DIR/$APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
-        #     "BUILD_DIR=${{ $WORK_DIR/BUILD }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+        run: |
+          echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
+          echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
+          echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
+          echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
+      
+      - name: Setup Env for Windows
+        if: ${{ matrix.os == 'windows' }}
+        run: |
+          "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "WORK_DIR=${{ env.WORK_DIR }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "SRC_DIR=${{ $WORK_DIR/$APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "BUILD_DIR=${{ $WORK_DIR/BUILD }}" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Checkout code
         uses: actions/checkout@v3
@@ -59,7 +61,7 @@ jobs:
           cd ${{ env.BUILD_DIR }}
           if [ "$RUNNER_OS" == "Windows" ]; then
             REM "Running the application"
-            start ${{ env.APP_NAME }}
+            ${{ env.APP_NAME }}
             echo "Application quit. All good."
           else
             echo 'Running application...'
