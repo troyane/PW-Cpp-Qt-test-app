@@ -24,22 +24,21 @@ jobs:
     # needs: run-lint
     steps:
       - name: Setup Env
-        run: |
-          echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
-          echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
-          echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
-          echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
+        - if: ${{ (matrix.os == 'macOS') || (matrix.os == 'linux') }}
+          run: |
+            echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
+            echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
+            echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
+            echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
+        - if ${{ matrix.os == 'windows' }}
+          run: |
+            "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+            "WORK_DIR=${{ env.WORK_DIR }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+            "SRC_DIR=${{ $WORK_DIR/$APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+            "BUILD_DIR=${{ $WORK_DIR/BUILD }}" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # - name: Check & Prepare
-      #   run: |
-      #     ls -lah
-      #     cd ${{ env.WORK_DIR }}
-      #     mkdir -p ${{ env.BUILD_DIR }}
-      #     ls -lah
-      #     find . -name CMakeLists.txt
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
