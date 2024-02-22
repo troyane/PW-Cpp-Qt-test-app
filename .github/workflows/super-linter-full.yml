@@ -1,7 +1,7 @@
 ---
-# This workflow executes following linters:
+# This workflow executes the following linters:
 #    bash, clang-format, github-actions, gitleaks, md, py
-# on whole codebase in "full-check" branch.
+# on the whole codebase in the "full-check" branch.
 name: Lint Code Base
 
 on:
@@ -9,11 +9,11 @@ on:
     branches: ["full-check"]
 
 env:
-  # Only for .clang-format in root folder of project:
-  LINTER_RULES_PATH: ${{ GITHUB_WORKSPACE }}
+  # Only for .clang-format in the root folder of the project:
+  LINTER_RULES_PATH: $GITHUB_WORKSPACE
 
 jobs:
-  run-lint:
+  run-full-project-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -33,6 +33,6 @@ jobs:
           VALIDATE_GITLEAKS: true
           VALIDATE_MARKDOWN: true
           VALIDATE_PYTHON: true
-          # VALIDATE_NATURAL_LANGUAGE: true # do it domeday...
+          # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
