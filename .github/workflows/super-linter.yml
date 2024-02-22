@@ -35,6 +35,6 @@ jobs:
           VALIDATE_GITLEAKS: true
           VALIDATE_MARKDOWN: true
           VALIDATE_PYTHON: true
-          # VALIDATE_NATURAL_LANGUAGE: true # do it domeday...
+          # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
