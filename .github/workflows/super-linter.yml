@@ -83,7 +83,7 @@ jobs:
       - name: Check it all
         run: |
           cd "$GITHUB_WORKSPACE"
-          la -lah
+          ls -lah
           find . -name CMakeLists.txt
       
       - name: Configure, Build (and Test Project)
