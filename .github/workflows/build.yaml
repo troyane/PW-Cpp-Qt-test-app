@@ -49,11 +49,16 @@ jobs:
 
       - name: Configure the Project
         uses: threeal/cmake-action@v1.3.0
+        with:
+          run-build: true
+          run-test: false
+          source-dir: $SRC_DIR
+          build-dir: $BUILD_DIR
 
-      - name: Build the Project
-        run: |
-          cmake -S $SRC_DIR -B $BUILD_DIR -G Ninja
-          cmake --build $BUILD_DIR
+      # - name: Build the Project
+      #   run: |
+      #     cmake -S $SRC_DIR -B $BUILD_DIR -G Ninja
+      #     cmake --build $BUILD_DIR
 
         # with:
         #   run-build: true
