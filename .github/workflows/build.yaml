@@ -24,7 +24,7 @@ jobs:
     # needs: run-lint
     steps:
       - name: Setup Env for Linux or macOS
-        if: ${{ (matrix.os == 'macOS') || (matrix.os == 'linux') }}
+        if: ${{ matrix.os != 'windows') }}
         run: |
           echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
           echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
