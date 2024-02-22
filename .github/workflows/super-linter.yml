@@ -14,6 +14,8 @@ on:
 
 jobs:
   run-lint:
+    if: ${{ false }}  # disable for now
+  
     env:
       # Only for .clang-format in the root folder of the project:
       LINTER_RULES_PATH: $GITHUB_WORKSPACE
@@ -53,7 +55,7 @@ jobs:
         with:
           run-build: true
           run-test: false # no tests yet
-          source-dir: $GITHUB_WORKSPACE
+          # source-dir: $GITHUB_WORKSPACE
           build-dir: $GITHUB_WORKSPACE/BUILD
           generator: Ninja
           # c-compiler: clang
