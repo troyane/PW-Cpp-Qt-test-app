@@ -119,7 +119,6 @@ jobs:
         run: |
           cd $BUILD_DIR"
           ls -lah
-          echo "Running application..."
+          echo 'Running application...'
           ./'$APP_NAME'
-          echo "Application quit. All good."
-          
+          echo 'Application quit. All good.'
