@@ -1,8 +1,5 @@
 ---
-# This workflow executes the following linters:
-#    bash, clang-format, github-actions, gitleaks, md, py
-# on touched files in the "main" branch.
-name: Lint newly touched code
+name: Check, build and run
 
 run-name: Check, build and run triggered by @${{ github.actor }}
 
