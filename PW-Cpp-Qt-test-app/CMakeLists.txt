@@ -13,6 +13,7 @@ set(REPO_ROOT ${PROJECT_SOURCE_DIR}/../)
 
 set(ADDITIONAL_FILES ${REPO_ROOT}/README.md
   ${REPO_ROOT}/.github/workflows/super-linter.yml
+  ${REPO_ROOT}/.gitignore
   .clang-format
 )
 
