@@ -75,6 +75,11 @@ jobs:
   build-prkoject:
     name: Build Project
     runs-on: ubuntu-latest
+
+    env:
+      SRC_DIR: '${{ github.workspace }}/${{ github.event.repository.name }}'
+      BUILD_DIR: '${{ github.workspace }}/BUILD'
+
     # needs: run-lint
     steps:
       - name: Checkout code
@@ -86,11 +91,20 @@ jobs:
           ls -lah
           find . -name CMakeLists.txt
       
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+          with:
+            version: '6.5.3'
+            host: 'linux'
+            target: 'desktop'
+            install-deps: 'true'
+            cache: 'false'
+            # setup-python: 'true'
+            #tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
+
       - name: Configure, Build (and Test Project)
         uses: threeal/cmake-action@v1.3.0
-        env:
-            SRC_DIR: ${{ github.event.repository.name }}
-            BUILD_DIR: BUILD
+
         with:
           run-build: true
           run-test: false # no tests yet
