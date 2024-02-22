@@ -49,7 +49,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Configure, Build (and Test Project)
-        uses: threeal/cmake-action
+        uses: threeal/cmake-action@v1.3.0
         with:
           run-build: true
           run-test: false # no tests yet
