@@ -117,7 +117,7 @@ jobs:
       
       - name: Check build result
         run: |
-          cd $BUILD_DIR"
+          cd '$BUILD_DIR'
           ls -lah
           echo 'Running application...'
           ./'$APP_NAME'
