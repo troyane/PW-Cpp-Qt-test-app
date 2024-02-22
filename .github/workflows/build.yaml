@@ -23,7 +23,7 @@ jobs:
 
     # needs: run-lint
     steps:
-      - name: Setup Env on Linux or macOS
+      - name: [lin, macos] Setup Env on Linux or macOS
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
@@ -31,7 +31,7 @@ jobs:
           echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
           echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
       
-      - name: Setup Env on Windows
+      - name: [win] Setup Env on Windows
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
@@ -40,7 +40,7 @@ jobs:
           "BUILD_DIR=${{ env.WORK_DIR }}/BUILD" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -56,7 +56,7 @@ jobs:
           source-dir: ${{ env.SRC_DIR }}
           build-dir: ${{ env.BUILD_DIR }} 
       
-      - name: Check build result on Linux or macOS
+      - name: [lin, macos] Check build result on Linux or macOS
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           cd ${{ env.BUILD_DIR }}
@@ -64,12 +64,12 @@ jobs:
           ./${{ env.APP_NAME }}
           echo 'Application quit. All good.'
 
-      - name: Check build result on Windows
+      - name: [win] Check build result on Windows
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           cd ${{ env.BUILD_DIR }}
           Write-Output "Running the application..."
-          Start-Process -FilePath "${{ env.APP_NAME }}" -Wait
+          Start-Process -FilePath "${{ env.APP_NAME }}.exe" -Wait
           Write-Output "Application quit. All good."
 
 
