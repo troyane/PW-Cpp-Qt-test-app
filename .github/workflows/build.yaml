@@ -14,7 +14,12 @@ env:
 jobs:
   build-project:
     name: Build Project
-    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os}} # ubuntu-latest
 
     # needs: run-lint
     steps:
@@ -28,24 +33,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Check & Prepare
-        run: |
-          ls -lah
-          cd $WORK_DIR
-          mkdir -p $BUILD_DIR
-          ls -lah
-          find . -name CMakeLists.txt
+      # - name: Check & Prepare
+      #   run: |
+      #     ls -lah
+      #     cd ${{ env.WORK_DIR }}
+      #     mkdir -p ${{ env.BUILD_DIR }}
+      #     ls -lah
+      #     find . -name CMakeLists.txt
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
           version: '6.5.3'
-          host: 'linux'
+          host: ${{ runner.os }} # 'linux'
           target: 'desktop'
           install-deps: 'true'
           cache: 'false'
-          # setup-python: 'true'
-          #tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
 
       - name: Configure the Project
         uses: threeal/cmake-action@v1.3.0
@@ -54,25 +57,17 @@ jobs:
           run-test: false
           source-dir: ${{ env.SRC_DIR }}
           build-dir: ${{ env.BUILD_DIR }} 
-
-      # - name: Build the Project
-      #   run: |
-      #     cmake -S $SRC_DIR -B $BUILD_DIR -G Ninja
-      #     cmake --build $BUILD_DIR
-
-        # with:
-        #   run-build: true
-        #   run-test: false # no tests yet
-        #   source-dir: $SRC_DIR
-        #   build-dir: $BUILD_DIR
-        #   generator: Ninja
-        #   # c-compiler: clang
-        #   # cxx-compiler: clang++
       
       - name: Check build result
         run: |
-          cd $BUILD_DIR
-          ls -lah
-          echo 'Running application...'
-          ./$APP_NAME
-          echo 'Application quit. All good.'
+          cd ${{ env.BUILD_DIR }}
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            REM "Running the application"
+            start ${{ env.APP_NAME }}
+            echo "Application quit. All good."
+          else
+            echo 'Running application...'
+            ./${{ env.APP_NAME }}
+            echo 'Application quit. All good.'
+          fi
+          
