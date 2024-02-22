@@ -24,7 +24,7 @@ jobs:
     # needs: run-lint
     steps:
       - name: Setup Env for Linux or macOS
-        if: ${{ matrix.os != 'windows' }}
+        if: ${{ matrix.os != 'windows-latest' }}
         run: |
           echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
           echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
@@ -32,7 +32,7 @@ jobs:
           echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
       
       - name: Setup Env for Windows
-        if: ${{ matrix.os == 'windows' }}
+        if: ${{ matrix.os == 'windows-latest' }}
         run: |
           "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
           "WORK_DIR=${{ env.WORK_DIR }}" | Out-File -FilePath $env:GITHUB_ENV -Append
