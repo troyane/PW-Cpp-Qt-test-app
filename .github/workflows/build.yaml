@@ -23,7 +23,7 @@ jobs:
 
     # needs: run-lint
     steps:
-      - name: Setup Env for Linux or macOS
+      - name: Setup Env on Linux or macOS
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
@@ -31,7 +31,7 @@ jobs:
           echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
           echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
       
-      - name: Setup Env for Windows
+      - name: Setup Env on Windows
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
@@ -56,16 +56,18 @@ jobs:
           source-dir: ${{ env.SRC_DIR }}
           build-dir: ${{ env.BUILD_DIR }} 
       
-      - name: Check build result
+      - name: Check build result on Linux or macOS
         run: |
           cd ${{ env.BUILD_DIR }}
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            REM "Running the application"
-            ${{ env.APP_NAME }}
-            echo "Application quit. All good."
-          else
-            echo 'Running application...'
-            ./${{ env.APP_NAME }}
-            echo 'Application quit. All good.'
-          fi
+          echo 'Running the application...'
+          ./${{ env.APP_NAME }}
+          echo 'Application quit. All good.'
+
+      - name: Check build result on Windows
+        run: |
+          cd ${{ env.BUILD_DIR }}
+          REM "Running the application"
+          ${{ env.APP_NAME }}
+          REM "Application quit. All good."
+
           
