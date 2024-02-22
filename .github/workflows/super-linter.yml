@@ -72,13 +72,14 @@ jobs:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
 
-  build-prkoject:
+  build-project:
     name: Build Project
     runs-on: ubuntu-latest
 
     env:
       SRC_DIR: '${{ github.workspace }}/${{ github.event.repository.name }}'
       BUILD_DIR: '${{ github.workspace }}/BUILD'
+      APP_NAME: '${{ github.event.repository.name }}'
 
     # needs: run-lint
     steps:
@@ -116,9 +117,9 @@ jobs:
       
       - name: Check build result
         run: |
-          cd "$GITHUB_WORKSPACE/BUILD"
+          cd $BUILD_DIR"
           ls -lah
           echo "Running application..."
-          ./PW-Cpp-Qt-test-app
-          echo "Application quite. All good."
+          ./'$APP_NAME'
+          echo "Application quit. All good."
           
