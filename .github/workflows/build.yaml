@@ -19,12 +19,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
-    runs-on: ${{ matrix.os}} # ubuntu-latest
+    runs-on: ${{ matrix.os }} # ubuntu-latest
 
     # needs: run-lint
     steps:
       - name: Setup Env
-        - if: ${{ (matrix.os == 'macOS') || (matrix.os == 'linux') }}
+        if: ${{ (matrix.os == 'macOS') || (matrix.os == 'linux') }}
           run: |
             echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
             echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
