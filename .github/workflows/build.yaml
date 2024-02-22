@@ -36,8 +36,8 @@ jobs:
         run: |
           "APP_NAME=${{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
           "WORK_DIR=${{ env.WORK_DIR }}" | Out-File -FilePath $env:GITHUB_ENV -Append
-          "SRC_DIR=${{ $WORK_DIR/$APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
-          "BUILD_DIR=${{ $WORK_DIR/BUILD }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "SRC_DIR=${{ env.WORK_DIR }}\$ {{ env.APP_NAME }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "BUILD_DIR=${{ $WORK_DIR }}\BUILD }}" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Checkout code
         uses: actions/checkout@v3
