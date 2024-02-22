@@ -66,8 +66,9 @@ jobs:
 
       - name: Check build result on Windows
         if: ${{ matrix.os == 'windows-latest' }}
+        # NOTE: On Windows it has subdir "Debug"
         run: |
-          cd ${{ env.BUILD_DIR }}
+          cd ${{ env.BUILD_DIR }}/Debug
           Write-Output "Running the application..."
           Start-Process -FilePath "${{ env.APP_NAME }}.exe" -Wait
           Write-Output "Application quit. All good."
