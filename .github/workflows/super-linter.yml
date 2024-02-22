@@ -89,8 +89,8 @@ jobs:
       - name: Configure, Build (and Test Project)
         uses: threeal/cmake-action@v1.3.0
         env:
-            SRC_DIR: $GITHUB_WORKSPACE/${{ github.event.repository.name }}
-            BUILD_DIR: $GITHUB_WORKSPACE/BUILD
+            SRC_DIR: ${{ github.event.repository.name }}
+            BUILD_DIR: BUILD
         with:
           run-build: true
           run-test: false # no tests yet
