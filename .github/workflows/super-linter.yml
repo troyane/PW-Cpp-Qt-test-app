@@ -4,7 +4,7 @@
 # on touched files in the "main" branch.
 name: Lint newly touched code
 
-run-name: Linter run by @${{ github.actor }}
+run-name: Check, build and run triggered by @${{ github.actor }}
 
 on:
   push:
@@ -13,34 +13,62 @@ on:
     branches: ["main"]
 
 jobs:
-  run-lint:
-    if: ${{ false }}  # disable for now
+  # run-lint:
+  #   if: ${{ false }} # disable for now
   
-    env:
-      # Only for .clang-format in the root folder of the project:
-      LINTER_RULES_PATH: $GITHUB_WORKSPACE
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          # Full git history is needed to get a proper list
-          # of changed files within `super-linter`
-          fetch-depth: 0
+  #   env:
+  #     # Only for .clang-format in the root folder of the project:
+  #     LINTER_RULES_PATH: $GITHUB_WORKSPACE
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         # Full git history is needed to get a proper list
+  #         # of changed files within `super-linter`
+  #         fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false # to check touched files only
-          VALIDATE_BASH: true
-          VALIDATE_CLANG_FORMAT: true
-          VALIDATE_GITHUB_ACTIONS: true
-          VALIDATE_GITLEAKS: true
-          VALIDATE_MARKDOWN: true
-          VALIDATE_PYTHON: true
-          # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
-          DEFAULT_BRANCH: "main"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Lint Code Base
+  #       uses: github/super-linter@v4
+  #       env:
+  #         VALIDATE_ALL_CODEBASE: false # to check touched files only
+  #         VALIDATE_BASH: true
+  #         VALIDATE_CLANG_FORMAT: true
+  #         VALIDATE_GITHUB_ACTIONS: true
+  #         VALIDATE_GITLEAKS: true
+  #         VALIDATE_MARKDOWN: true
+  #         VALIDATE_PYTHON: true
+  #         # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
+  #         DEFAULT_BRANCH: "main"
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    dump_contexts_to_log:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Dump GitHub context
+            env:
+              GITHUB_CONTEXT: ${{ toJson(github) }}
+            run: echo "$GITHUB_CONTEXT"
+          - name: Dump job context
+            env:
+              JOB_CONTEXT: ${{ toJson(job) }}
+            run: echo "$JOB_CONTEXT"
+          - name: Dump steps context
+            env:
+              STEPS_CONTEXT: ${{ toJson(steps) }}
+            run: echo "$STEPS_CONTEXT"
+          - name: Dump runner context
+            env:
+              RUNNER_CONTEXT: ${{ toJson(runner) }}
+            run: echo "$RUNNER_CONTEXT"
+          - name: Dump strategy context
+            env:
+              STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+            run: echo "$STRATEGY_CONTEXT"
+          - name: Dump matrix context
+            env:
+              MATRIX_CONTEXT: ${{ toJson(matrix) }}
+            run: echo "$MATRIX_CONTEXT"
 
   build-project:
     name: Build Project
@@ -49,14 +77,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Check it all
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          la -lah
+          find . -name CMakeLists.txt
       
       - name: Configure, Build (and Test Project)
         uses: threeal/cmake-action@v1.3.0
+        env:
+            SRC_DIR: $GITHUB_WORKSPACE/${{ github.event.repository.name }}
+            BUILD_DIR: $GITHUB_WORKSPACE/BUILD
         with:
           run-build: true
           run-test: false # no tests yet
-          # source-dir: $GITHUB_WORKSPACE
-          build-dir: $GITHUB_WORKSPACE/BUILD
+          source-dir: $SRC_DIR
+          build-dir: $BUILD_DIR
           generator: Ninja
           # c-compiler: clang
           # cxx-compiler: clang++
