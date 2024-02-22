@@ -1,19 +1,14 @@
 ---
 name: Check, build and run
 
-run-name: Check, build and run triggered by @${{ github.actor }}
+run-name: Linter triggered by @${{ github.actor }}
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-env:
-  APP_NAME: ${{ github.event.repository.name }}
-  WORK_DIR: ${{ github.workspace }}
-  SRC_DIR: '$WORK_DIR/$APP_NAME'
-  BUILD_DIR: '$WORK_DIR/BUILD'
+  branches: ["full-check"]
+  # push:
+  #   branches: ["main"]
+  # pull_request:
+  #   branches: ["main"]
   
 jobs:
 
