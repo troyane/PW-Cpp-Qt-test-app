@@ -61,7 +61,7 @@ jobs:
       
       - name: Check build result
         run: |
-          cd $GITHUB_WORKSPACE/BUILD
+          cd "$GITHUB_WORKSPACE/BUILD"
           ls -lah
           echo "Running application..."
           ./PW-Cpp-Qt-test-app
