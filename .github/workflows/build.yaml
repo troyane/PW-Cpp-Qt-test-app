@@ -20,10 +20,10 @@ jobs:
     steps:
       - name: Setup Env
         run: |
-          echo "APP_NAME=${{ env.APP_NAME }}" >> $GITHUB_ENV
-          echo "WORK_DIR=${{ env.WORK_DIR }}" >> $GITHUB_ENV
-          echo "SRC_DIR=${{ env.WORK_DIR }}/${{ env.APP_NAME }}" >> $GITHUB_ENV
-          echo "BUILD_DIR::${{ env.WORK_DIR }}/BUILD" >> $GITHUB_ENV
+          echo "APP_NAME=${{ env.APP_NAME }}" >> "$GITHUB_ENV"
+          echo "WORK_DIR=${{ env.WORK_DIR }}" >> "$GITHUB_ENV"
+          echo "SRC_DIR=$WORK_DIR/$APP_NAME" >> "$GITHUB_ENV"
+          echo "BUILD_DIR=$WORK_DIR/BUILD" >> "$GITHUB_ENV"
       
       - name: Checkout code
         uses: actions/checkout@v3
