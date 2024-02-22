@@ -52,8 +52,8 @@ jobs:
         with:
           run-build: true
           run-test: false
-          source-dir: $SRC_DIR
-          build-dir: $BUILD_DIR
+          source-dir: ${{ env.SRC_DIR }}
+          build-dir: ${{ env.BUILD_DIR }} 
 
       # - name: Build the Project
       #   run: |
