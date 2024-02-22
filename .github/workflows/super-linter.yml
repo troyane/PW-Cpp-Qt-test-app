@@ -4,7 +4,8 @@ name: Check, build and run
 run-name: Linter triggered by @${{ github.actor }}
 
 on:
-  branches: ["full-check"]
+  push:
+    branches: ["full-check"]
   # push:
   #   branches: ["main"]
   # pull_request:

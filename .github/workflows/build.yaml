@@ -47,17 +47,22 @@ jobs:
           # setup-python: 'true'
           #tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
 
-      - name: Configure, Build (and Test?) the Project
+      - name: Configure the Project
         uses: threeal/cmake-action@v1.3.0
 
-        with:
-          run-build: true
-          run-test: false # no tests yet
-          source-dir: $SRC_DIR
-          build-dir: $BUILD_DIR
-          generator: Ninja
-          # c-compiler: clang
-          # cxx-compiler: clang++
+      - name: Build the Project
+        run: |
+          cmake -S $SRC_DIR -B $BUILD_DIR -G Ninja
+          cmake --build $BUILD_DIR
+
+        # with:
+        #   run-build: true
+        #   run-test: false # no tests yet
+        #   source-dir: $SRC_DIR
+        #   build-dir: $BUILD_DIR
+        #   generator: Ninja
+        #   # c-compiler: clang
+        #   # cxx-compiler: clang++
       
       - name: Check build result
         run: |
