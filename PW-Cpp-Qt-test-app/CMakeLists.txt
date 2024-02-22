@@ -23,6 +23,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 add_executable(PW-Cpp-Qt-test-app
   main.cpp
   ${ADDITIONAL_FILES}
+  ../.github/workflows/super-linter-full.yml
 )
 target_link_libraries(PW-Cpp-Qt-test-app Qt${QT_VERSION_MAJOR}::Core)
 

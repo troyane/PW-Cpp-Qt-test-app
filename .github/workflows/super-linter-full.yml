@@ -1,14 +1,12 @@
 ---
 # This workflow executes following linters:
 #    bash, clang-format, github-actions, gitleaks, md, py
-# on touched files in "main" branch.
+# on whole codebase in "full-check" branch.
 name: Lint Code Base
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches: ["full-check"]
 
 env:
   # Only for .clang-format in root folder of project:
@@ -28,7 +26,7 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: false # to check touched files only
+          VALIDATE_ALL_CODEBASE: true # to check touched files only
           VALIDATE_BASH: true
           VALIDATE_CLANG_FORMAT: true
           VALIDATE_GITHUB_ACTIONS: true
