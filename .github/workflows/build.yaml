@@ -45,9 +45,9 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         qtver: [5.15.2] # [6.5.3, 6.2.0]
 
-    runs-on: ${{ matrix.os }} # ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
-    # needs: run-lint
+    needs: run-full-project-lint
     steps:
       - name: Setup Env on Linux or macOS
         if: ${{ matrix.os != 'windows-latest' }}
