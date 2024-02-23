@@ -13,7 +13,6 @@ env:
 
 jobs:
 
-  jobs:
   run-full-project-lint:
     runs-on: ubuntu-latest
     steps:
