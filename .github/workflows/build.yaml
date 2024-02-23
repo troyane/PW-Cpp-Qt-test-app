@@ -43,7 +43,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ] # [ windows-latest ]
-        qtver: [ 5.15.2 ] # [ 5.15.2, 6.5.3, 6.2.0 ]
+        qtver: [ 5.15.2, 6.5.3, 6.2.0 ]
 
     runs-on: ${{ matrix.os }}
 
