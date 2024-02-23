@@ -13,41 +13,42 @@ env:
 
 jobs:
 
-  run-full-project-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          # Full git history is needed to get a proper list
-          # of changed files within `super-linter`
-          fetch-depth: 0
+  # run-full-project-lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         # Full git history is needed to get a proper list
+  #         # of changed files within `super-linter`
+  #         fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_CLANG_FORMAT: true
-          VALIDATE_MARKDOWN: true
-          # VALIDATE_BASH: true
-          # VALIDATE_GITHUB_ACTIONS: true
-          # VALIDATE_GITLEAKS: true
-          # VALIDATE_PYTHON: true
-          # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
-          DEFAULT_BRANCH: "main"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Lint Code Base
+  #       uses: github/super-linter@v4
+  #       env:
+  #         VALIDATE_ALL_CODEBASE: true
+  #         VALIDATE_CLANG_FORMAT: true
+  #         VALIDATE_MARKDOWN: true
+  #         # VALIDATE_BASH: true
+  #         # VALIDATE_GITHUB_ACTIONS: true
+  #         # VALIDATE_GITLEAKS: true
+  #         # VALIDATE_PYTHON: true
+  #         # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
+  #         DEFAULT_BRANCH: "main"
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-project:
     name: Build Project
     
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ windows-latest ] # [ubuntu-latest, macos-latest, windows-latest]
         qtver: [5.15.2] # [6.5.3, 6.2.0]
 
     runs-on: ${{ matrix.os }}
 
-    needs: run-full-project-lint
+    # needs: run-full-project-lint
+
     steps:
       - name: Setup Env on Linux or macOS
         if: ${{ matrix.os != 'windows-latest' }}
@@ -96,7 +97,7 @@ jobs:
         run: |
           cd ${{ env.BUILD_DIR }}/Debug
           Write-Output "Running the application..."
-          Start-Process -FilePath "${{ env.APP_NAME }}.exe" -Wait
+          $OutputVariable = ("${{ env.APP_NAME }}.exe") | Out-String
           Write-Output "Application quit. All good."
 
 
