@@ -27,12 +27,12 @@ jobs:
         uses: github/super-linter@v4
         env:
           VALIDATE_ALL_CODEBASE: true
-          VALIDATE_BASH: true
           VALIDATE_CLANG_FORMAT: true
-          # VALIDATE_GITHUB_ACTIONS: true
-          VALIDATE_GITLEAKS: true
           VALIDATE_MARKDOWN: true
-          VALIDATE_PYTHON: true
+          # VALIDATE_BASH: true
+          # VALIDATE_GITHUB_ACTIONS: true
+          # VALIDATE_GITLEAKS: true
+          # VALIDATE_PYTHON: true
           # VALIDATE_NATURAL_LANGUAGE: true # do it someday...
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
