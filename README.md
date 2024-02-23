@@ -1,3 +1,3 @@
 # PW-Cpp-Qt-test-app
 
-![Linter status](https://github.com/troyane/PW-Cpp-Qt-test-app/actions/workflows/super-linter.yml/badge.svg?event=push)
+![Linter and Build status](https://github.com/troyane/PW-Cpp-Qt-test-app/actions/workflows/build.yml/badge.svg?event=push)
